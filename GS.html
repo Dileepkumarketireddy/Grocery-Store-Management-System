@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Store Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-store"></i> Grocery Store Management</h1>
+        </header>
+
+        <div class="main-content">
+            <aside class="sidebar">
+                <nav>
+                    <ul>
+                        <li class="active" data-tab="dashboard"><i class="fas fa-home"></i> Dashboard</li>
+                        <li data-tab="inventory"><i class="fas fa-boxes"></i> Inventory</li>
+                        <li data-tab="add-product"><i class="fas fa-plus-circle"></i> Add Product</li>
+                        <li data-tab="sales"><i class="fas fa-cash-register"></i> Sales</li>
+                        <li data-tab="reports"><i class="fas fa-chart-bar"></i> Reports</li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <main class="content-area">
+                <!-- Dashboard Tab -->
+                <div id="dashboard" class="tab-content active">
+                    <h2>Store Overview</h2>
+                    <div class="stats-container">
+                        <div class="stat-card">
+                            <h3>Total Products</h3>
+                            <p id="total-products">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Low Stock</h3>
+                            <p id="low-stock">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Inventory Value</h3>
+                            <p id="inventory-value">$0.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inventory Tab -->
+                <div id="inventory" class="tab-content">
+                    <h2>Inventory Management</h2>
+                    <div class="search-bar">
+                        <input type="text" id="search-inventory" placeholder="Search products...">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="table-container">
+                        <table id="inventory-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Inventory items will be added here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Add Product Tab -->
+                <div id="add-product" class="tab-content">
+                    <h2>Add New Product</h2>
+                    <form id="product-form">
+                        <div class="form-group">
+                            <label for="product-id">Product ID</label>
+                            <input type="number" id="product-id" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-name">Product Name</label>
+                            <input type="text" id="product-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-quantity">Quantity</label>
+                            <input type="number" id="product-quantity" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-price">Price ($)</label>
+                            <input type="number" step="0.01" id="product-price" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Add Product</button>
+                    </form>
+                </div>
+
+                <!-- Sales Tab -->
+                <div id="sales" class="tab-content">
+                    <h2>Process Sale</h2>
+                    <div class="sale-container">
+                        <div class="sale-form">
+                            <div class="form-group">
+                                <label for="sale-product-id">Product ID</label>
+                                <input type="number" id="sale-product-id">
+                            </div>
+                            <div class="form-group">
+                                <label for="sale-quantity">Quantity</label>
+                                <input type="number" id="sale-quantity" value="1">
+                            </div>
+                            <button id="add-to-cart" class="btn-primary">Add to Cart</button>
+                        </div>
+                        <div class="cart-container">
+                            <h3>Current Sale</h3>
+                            <table id="cart-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Qty</th>
+                                        <th>Price</th>
+                                        <th>Total</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Cart items will be added here dynamically -->
+                                </tbody>
+                            </table>
+                            <div class="cart-total">
+                                <p>Total: <span id="cart-total-amount">$0.00</span></p>
+                                <button id="complete-sale" class="btn-success">Complete Sale</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reports Tab -->
+                <div id="reports" class="tab-content">
+                    <h2>Reports</h2>
+                    <div class="report-options">
+                        <button id="inventory-report" class="btn-primary">Inventory Report</button>
+                        <button id="sales-report" class="btn-primary">Sales Report</button>
+                    </div>
+                    <div id="report-results">
+                        <!-- Report results will be displayed here -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Edit Product</h2>
+            <form id="edit-form">
+                <input type="hidden" id="edit-product-id">
+                <div class="form-group">
+                    <label for="edit-product-name">Product Name</label>
+                    <input type="text" id="edit-product-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-product-quantity">Quantity</label>
+                    <input type="number" id="edit-product-quantity" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-product-price">Price ($)</label>
+                    <input type="number" step="0.01" id="edit-product-price" required>
+                </div>
+                <button type="submit" class="btn-primary">Update Product</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
